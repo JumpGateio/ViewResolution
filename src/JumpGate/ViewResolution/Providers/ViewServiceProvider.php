@@ -32,9 +32,31 @@ class ViewServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->loadConfigs();
+        $this->loadViews();
+    }
+
+    protected function loadConfigs()
+    {
         $this->publishes([
-            __DIR__ . '/../../../config/view-routing.php' => config_path('jumpgate/view-routing.php'),
+            __DIR__ . '/../../../config/view-resolution.php' => config_path('jumpgate/view-resolution.php'),
         ]);
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../../config/view-resolution.php', 'jumpgate.view-resolution'
+        );
+    }
+
+    /**
+     * Register views
+     *
+     * @return void
+     */
+    protected function loadViews()
+    {
+        if ($this->app['config']->get('jumpgate.view-resolution.load_layout')) {
+            $this->app['view']->addLocation(__DIR__ . '/../../../views');
+        }
     }
 
     /**

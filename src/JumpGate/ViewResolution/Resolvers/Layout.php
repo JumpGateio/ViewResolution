@@ -92,6 +92,10 @@ class Layout
 
     private function verifyLayoutOptions($layoutOptions)
     {
+        if (config('jumpgate.view-resolution.load_layout')) {
+            return config('jumpgate.view-resolution.layout_options');
+        }
+
         if (! is_array($layoutOptions)) {
             throw new \InvalidArgumentException('The layoutOptions must be an array.');
         }

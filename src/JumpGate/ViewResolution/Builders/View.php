@@ -9,8 +9,14 @@ use JumpGate\ViewResolution\Resolvers\Path;
 
 class View
 {
+    /**
+     * @var \Illuminate\View\View
+     */
     public $layout;
 
+    /**
+     * @var Factory
+     */
     public $view;
 
     /**
