@@ -249,6 +249,6 @@ class View
 
         $this->configIndex = implode('.', array_filter($views));
 
-        return array_get(config('view-routing'), $this->configIndex);
+        return array_get(config('jumpgate.view-resolution.view_locations'), $this->configIndex);
     }
 }
