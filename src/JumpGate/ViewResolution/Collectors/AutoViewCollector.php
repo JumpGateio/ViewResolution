@@ -1,6 +1,6 @@
 <?php
 
-namespace JumpGate\ViewResolution\Providers;
+namespace JumpGate\ViewResolution\Collectors;
 
 use DebugBar\Bridge\Twig\TwigCollector;
 use DebugBar\DataCollector\Renderable;

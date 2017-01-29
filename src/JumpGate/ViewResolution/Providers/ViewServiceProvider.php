@@ -1,9 +1,10 @@
 <?php
 
-namespace JumpGate\VewResolution\Providers;
+namespace JumpGate\ViewResolution\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use JumpGate\ViewResolution\Builders\View;
+use JumpGate\ViewResolution\Collectors\AutoViewCollector;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -20,9 +21,9 @@ class ViewServiceProvider extends ServiceProvider
             return $app->make(View::class);
         });
 
-
-        if ($this->app->environment('local') || request('debug') == true) {
+        if ($this->app->environment('local') && checkDebugbar()) {
             $debugbar = $this->app['debugbar'];
+
             if ($debugbar->shouldCollect('auto_views')) {
                 $debugbar->addCollector(new AutoViewCollector());
             }

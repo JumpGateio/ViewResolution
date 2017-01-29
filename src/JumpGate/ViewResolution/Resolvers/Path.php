@@ -5,7 +5,7 @@ namespace JumpGate\ViewResolution\Resolvers;
 use Illuminate\Routing\Router;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
-use JumpGate\ViewResolution\Models\ViewModel;
+use JumpGate\ViewResolution\Models\View as ViewModel;
 
 class Path
 {

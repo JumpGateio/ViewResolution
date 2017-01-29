@@ -11,3 +11,15 @@ if (! function_exists('viewBuilder')) {
         return app('viewBuilder');
     }
 }
+
+if (! function_exists('checkDebugbar')) {
+    /**
+     * Return the ViewBuilder instance.
+     *
+     * @return mixed
+     */
+    function checkDebugbar()
+    {
+        return app()->bound('debugbar');
+    }
+}
