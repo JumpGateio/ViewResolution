@@ -113,7 +113,7 @@ Route::group(['prefix' => 'admin'], function () {
 });
 ```
 
-In the above example, core would look for a view at `views/admin/home/dashboard/index.blade.php`.  When it doesn't find 
+In the above example, the package would look for a view at `views/admin/home/dashboard/index.blade.php`.  When it doesn't find 
 one there, it will look at `views/admin/home/index.blade.php`.  Since the controller name matched the last prefix, it skipped 
 looking in `views/admin/home/home/index.blade.php`.
 
