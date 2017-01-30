@@ -8,15 +8,29 @@ use Illuminate\Http\Request;
 
 class Layout
 {
-
+    /**
+     * @var \Illuminate\View\View
+     */
     public $layout;
 
+    /**
+     * @var \Illuminate\View\View
+     */
     protected $view;
 
+    /**
+     * @var \Illuminate\Http\Request
+     */
     protected $request;
 
+    /**
+     * @var \Illuminate\Config\Repository
+     */
     protected $config;
 
+    /**
+     * @var array
+     */
     protected $layoutOptions;
 
     /**
@@ -31,6 +45,13 @@ class Layout
         $this->config  = $config;
     }
 
+    /**
+     * Set up the initial layout to be used.
+     *
+     * @param $layoutOptions
+     *
+     * @return $this
+     */
     public function setUp($layoutOptions)
     {
         $this->layoutOptions = $this->verifyLayoutOptions($layoutOptions);
@@ -41,6 +62,13 @@ class Layout
         return $this;
     }
 
+    /**
+     * Change the selected layout to something else and ready it for content.
+     * 
+     * @param $view
+     *
+     * @return $this
+     */
     public function change($view)
     {
         $this->layout = $this->determineLayout($view);
@@ -50,6 +78,9 @@ class Layout
         return $this;
     }
 
+    /**
+     * Auto determine a logic page title.
+     */
     public function setPageTitle()
     {
         $area     = $this->request->segment(1);
@@ -64,11 +95,13 @@ class Layout
         $this->view->share('pageTitle', $pageTitle);
     }
 
-    public function getLayout()
-    {
-        return $this->layout;
-    }
-
+    /**
+     * Determine which layout to use based on the request.
+     *
+     * @param $layout
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     protected function determineLayout($layout)
     {
         if (! is_null($layout)) {
@@ -90,12 +123,21 @@ class Layout
         return $this->layout;
     }
 
+    /**
+     * Make sure that we have a valid set of layout options.
+     *
+     * @param $layoutOptions
+     *
+     * @return mixed
+     */
     private function verifyLayoutOptions($layoutOptions)
     {
+        // If using the config details, go with that instead of expecting passed options.
         if (config('jumpgate.view-resolution.load_layout')) {
             return config('jumpgate.view-resolution.layout_options');
         }
 
+        // If using the passed options, make sure they are valid options.
         if (! is_array($layoutOptions)) {
             throw new \InvalidArgumentException('The layoutOptions must be an array.');
         }
