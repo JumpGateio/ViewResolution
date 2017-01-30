@@ -7,7 +7,7 @@ return [
         // ],
     ],
 
-    'load_layout'    => true,
+    'load_layout'    => false,
 
     'layout_options' => [
         'default' => 'layout',
