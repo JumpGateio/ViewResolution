@@ -3,7 +3,7 @@
 namespace JumpGate\ViewResolution\Builders;
 
 use Illuminate\View\Factory;
-use JumpGate\ViewResolution\Models\ViewModel;
+use JumpGate\ViewResolution\Models\View as ViewModel;
 use JumpGate\ViewResolution\Resolvers\Layout;
 use JumpGate\ViewResolution\Resolvers\Path;
 
@@ -156,7 +156,7 @@ class View
      */
     public function collectDetails($viewModel)
     {
-        if (app()->environment('local') && checkDebugbar()) {
+        if (checkDebugbar()) {
             $debugbar = app('debugbar');
 
             if ($debugbar->shouldCollect('auto_views')) {

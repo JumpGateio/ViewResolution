@@ -1,14 +1,14 @@
 <?php
 
-if (! function_exists('viewBuilder')) {
+if (! function_exists('viewResolver')) {
     /**
-     * Return the ViewBuilder instance.
+     * Return the view builder instance.
      *
      * @return mixed
      */
-    function viewBuilder()
+    function viewResolver()
     {
-        return app('viewBuilder');
+        return app('viewResolver');
     }
 }
 
@@ -20,6 +20,6 @@ if (! function_exists('checkDebugbar')) {
      */
     function checkDebugbar()
     {
-        return app()->bound('debugbar');
+        return app()->environment('local') && app()->bound('debugbar');
     }
 }

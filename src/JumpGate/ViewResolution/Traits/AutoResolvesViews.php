@@ -22,7 +22,7 @@ trait AutoResolvesViews
         $layoutOptions = $this->getLayoutOptions($layout);
 
         // Set up the default view resolution
-        viewBuilder()->setUp($layoutOptions, $view);
+        viewResolver()->setUp($layoutOptions, $view);
         $this->setupLayout();
     }
 
@@ -73,7 +73,7 @@ trait AutoResolvesViews
      */
     public function setupLayout()
     {
-        $this->layout = viewBuilder()->getLayout();
+        $this->layout = viewResolver()->getLayout();
     }
 
     /**
@@ -108,7 +108,7 @@ trait AutoResolvesViews
      */
     public function missingMethod($parameters = [])
     {
-        viewBuilder()->missingMethod($parameters);
+        viewResolver()->missingMethod($parameters);
     }
 
     /**

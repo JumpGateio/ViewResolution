@@ -17,11 +17,11 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('viewBuilder', function ($app) {
+        $this->app->singleton('viewResolver', function ($app) {
             return $app->make(View::class);
         });
 
-        if ($this->app->environment('local') && checkDebugbar()) {
+        if (checkDebugbar()) {
             $debugbar = $this->app['debugbar'];
 
             if ($debugbar->shouldCollect('auto_views')) {
@@ -36,6 +36,9 @@ class ViewServiceProvider extends ServiceProvider
         $this->loadViews();
     }
 
+    /**
+     * Allow configs to be published but use the included by default.
+     */
     protected function loadConfigs()
     {
         $this->publishes([
@@ -66,6 +69,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['viewBuilder'];
+        return ['viewResolver'];
     }
 }

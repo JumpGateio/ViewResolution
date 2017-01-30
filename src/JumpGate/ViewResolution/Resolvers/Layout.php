@@ -64,7 +64,7 @@ class Layout
 
     /**
      * Change the selected layout to something else and ready it for content.
-     * 
+     *
      * @param $view
      *
      * @return $this

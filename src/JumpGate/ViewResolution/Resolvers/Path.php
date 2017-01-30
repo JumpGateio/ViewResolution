@@ -9,22 +9,49 @@ use JumpGate\ViewResolution\Models\View as ViewModel;
 
 class Path
 {
+    /**
+     * @var \JumpGate\ViewResolution\Models\View
+     */
     public $viewModel;
 
+    /**
+     * @var \JumpGate\ViewResolution\Resolvers\Path
+     */
     public $path;
 
+    /**
+     * @var \JumpGate\ViewResolution\Resolvers\Layout
+     */
     public $layout;
 
+    /**
+     * @var \Illuminate\Routing\Router
+     */
     protected $route;
 
+    /**
+     * @var \Illuminate\View\Factory
+     */
     protected $view;
 
+    /**
+     * @param \Illuminate\Routing\Router $route
+     * @param \Illuminate\View\Factory   $view
+     */
     public function __construct(Router $route, Factory $view)
     {
         $this->route = $route;
         $this->view  = $view;
     }
 
+    /**
+     * Set up the needed details for the view.
+     *
+     * @param \Illuminate\View\View $layout
+     * @param null|string           $view
+     *
+     * @return \Illuminate\View\View
+     */
     public function setUp(View $layout, $view = null)
     {
         $this->layout = $layout;
@@ -34,6 +61,11 @@ class Path
         return $this->layout;
     }
 
+    /**
+     * Get a valid view path save it.
+     *
+     * @param $view
+     */
     protected function setPath($view)
     {
         $this->viewModel = new ViewModel();
@@ -44,11 +76,14 @@ class Path
             $this->viewModel->view = $view;
         }
 
-        viewBuilder()->collectDetails($this->viewModel);
+        viewResolver()->collectDetails($this->viewModel);
 
         $this->path = $view;
     }
 
+    /**
+     * Put the found view inside the layout.
+     */
     protected function setContent()
     {
         if (stripos($this->path, 'missingmethod') === false && $this->view->exists($this->path)) {
@@ -60,6 +95,14 @@ class Path
         }
     }
 
+    /**
+     * Try to figure out a view based on the called action.
+     *
+     * @param $layout
+     * @param $parameters
+     *
+     * @return \Illuminate\View\View
+     */
     public function missingMethod($layout, $parameters)
     {
         $view = $this->findView();
@@ -76,6 +119,11 @@ class Path
     }
 
     /**
+     * Find a view based on the available details.
+     *
+     * This will look in the config and the route details to
+     * find a sensible place a view may be.
+     *
      * @return string
      */
     protected function findView()
@@ -101,20 +149,5 @@ class Path
         }
 
         return null;
-    }
-
-    /**
-     * @param string $method
-     *
-     * @return string
-     */
-    protected function getPrefixName($method)
-    {
-        $prefix = $this->route->getCurrentRoute()->getPrefix();
-        $prefix = str_replace('/', '.', $prefix);
-        $prefix = preg_replace('/\b\.' . $method . '\b/', '', $prefix);
-        $prefix = preg_replace('/\b' . $method . '\.\b/', '', $prefix);
-
-        return $prefix;
     }
 }
