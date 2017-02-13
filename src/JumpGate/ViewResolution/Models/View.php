@@ -10,6 +10,10 @@ class View
     /**
      * @var null|string
      */
+    public $layout = null;
+    /**
+     * @var null|string
+     */
     public $fullController = null;
 
     /**
@@ -54,10 +58,12 @@ class View
 
     /**
      * @param array $routeParts
+     * @param null  $layout
      */
-    public function __construct(array $routeParts = [])
+    public function __construct(array $routeParts = [], $layout = null)
     {
         $this->attemptedViews = collect();
+        $this->layout         = $layout;
 
         if (! empty($routeParts)) {
             $this->parseController(head($routeParts));

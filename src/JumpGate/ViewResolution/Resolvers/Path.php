@@ -20,7 +20,7 @@ class Path
     public $path;
 
     /**
-     * @var \JumpGate\ViewResolution\Resolvers\Layout
+     * @var \JumpGate\ViewResolution\Resolvers\Layout|\Illuminate\View\View
      */
     public $layout;
 
@@ -68,13 +68,13 @@ class Path
      */
     protected function setPath($view)
     {
-        $this->viewModel = new ViewModel();
+        $this->viewModel = new ViewModel([], $this->layout->getName());
 
         if ($view == null) {
             $view = $this->findView();
-        } else {
-            $this->viewModel->view = $view;
         }
+
+        $this->viewModel->view = $view;
 
         viewResolver()->collectDetails($this->viewModel);
 
@@ -134,7 +134,7 @@ class Path
         $routeParts = explode('@', $route);
 
         if (count(array_filter($routeParts)) > 0) {
-            $this->viewModel = new ViewModel($routeParts);
+            $this->viewModel = new ViewModel($routeParts, $this->layout->getName());
 
             // Check for a configured view route.
             if (! is_null($configView = $this->viewModel->checkConfig())) {

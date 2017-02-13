@@ -2,7 +2,7 @@
 
 return [
     'view_locations' => [
-        // '\App\Http\Controllers\Controller' => [
+        // 'App\Http\Controllers\Controller' => [
         //     'index' => 'welcome',
         // ],
     ],
