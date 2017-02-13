@@ -100,6 +100,32 @@ class ResolvesViewsTest extends TestCase
     /**
      * @test
      */
+    public function it_can_use_the_config_for_default_layout_options()
+    {
+        // Add the view.
+        $this->createView('configDefault');
+
+        // Use the default layout.
+        $this->loadLayout();
+
+        // Set up the config entry to specify a view to use.
+        $this->app['config']->set('jumpgate.view-resolution.layout_options.default', 'configDefault');
+
+        // Call the route and get the auto view debug information.
+        $this->call('GET', '/auto-route');
+
+        $debug = viewResolver()->debug();
+
+        // Assert.
+        $this->assertEquals('configDefault', $debug->layout);
+
+        // Clean up.
+        $this->deleteView('configDefault');
+    }
+
+    /**
+     * @test
+     */
     public function it_can_automatically_resolve_a_view()
     {
         // Add the view.
