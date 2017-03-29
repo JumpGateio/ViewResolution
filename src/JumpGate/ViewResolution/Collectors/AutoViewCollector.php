@@ -9,7 +9,7 @@ use JumpGate\ViewResolution\Models\View as ViewModel;
 class AutoViewCollector extends TwigCollector implements Renderable
 {
     /**
-     * @var null|\JumpGate\ViewResolution\Models\ViewModel
+     * @var null|\JumpGate\ViewResolution\Models\View
      */
     public $viewModel = null;
 
