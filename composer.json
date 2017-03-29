@@ -22,9 +22,11 @@
             "src/helpers.php"
         ],
         "psr-4": {
-            "Tests\\": "tests",
             "JumpGate\\ViewResolution\\": "src/JumpGate/ViewResolution"
         }
+    },
+    "autoload-dev": {
+        "Tests\\": "tests"
     },
     "minimum-stability": "stable"
 }
