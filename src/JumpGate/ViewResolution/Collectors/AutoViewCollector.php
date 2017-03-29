@@ -4,7 +4,7 @@ namespace JumpGate\ViewResolution\Collectors;
 
 use DebugBar\Bridge\Twig\TwigCollector;
 use DebugBar\DataCollector\Renderable;
-use JumpGate\ViewResolution\Models\ViewModel;
+use JumpGate\ViewResolution\Models\View as ViewModel;
 
 class AutoViewCollector extends TwigCollector implements Renderable
 {
