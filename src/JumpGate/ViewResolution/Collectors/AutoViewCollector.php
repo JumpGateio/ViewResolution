@@ -45,6 +45,14 @@ class AutoViewCollector extends TwigCollector implements Renderable
 
     public function collect()
     {
+        // If the app is not using the auto resolved views, redirect them to something helpful.
+        if ($this->viewModel === null) {
+            return [
+                'Details' => 'Using inertia.  Nothing to auto-resolve.  Look to the inertia tab in debugbar or enable it 
+                in the configs to get inertia details.',
+            ];
+        }
+        
         $attemptedViews = $this->viewModel->attemptedViews;
         $prefixes       = $this->viewModel->prefixes;
 
