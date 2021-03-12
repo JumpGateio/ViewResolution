@@ -20,6 +20,9 @@ class ViewServiceProvider extends ServiceProvider
         $this->app->singleton('viewResolver', function ($app) {
             return $app->make(View::class);
         });
+        $this->app->singleton('inertiaResolver', function ($app) {
+            return $app->make(Inertia::class);
+        });
 
         if (checkDebugbar()) {
             $debugbar = $this->app['debugbar'];
