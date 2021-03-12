@@ -3,6 +3,7 @@
 namespace JumpGate\ViewResolution\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use JumpGate\ViewResolution\Builders\Inertia;
 use JumpGate\ViewResolution\Builders\View;
 use JumpGate\ViewResolution\Collectors\AutoViewCollector;
 
