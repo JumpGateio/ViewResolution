@@ -67,6 +67,7 @@ class AutoViewCollector extends TwigCollector implements Renderable
             'possible prefixes' => $this->getDataFormatter()
                                         ->formatVar($prefixes ? $prefixes->toArray() : $prefixes),
             'config index'      => $this->viewModel->configIndex,
+            'is inertia'        => $this->viewModel->isInertiaFlag,
         ];
 
         return $data;
