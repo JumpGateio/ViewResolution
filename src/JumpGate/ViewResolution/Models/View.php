@@ -128,7 +128,7 @@ class View
     }
 
     /**
-     * Find the most reasonable view available.
+     * Find the most reasonable component available.
      *
      * @return null
      */
@@ -185,13 +185,20 @@ class View
     {
         $this->attemptedViews = $this->attemptedViews->push($view);
     }
-    
+
+    /**
+     * Check if the file exists at the specific path.
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
     protected function exists($path)
     {
         if ($this->isInertiaFlag) {
-            return file_exists()->exists(resource_path('js/Pages/' . $path));
+            return file_exists(resource_path('js/Pages/' . $path . '.vue'));
         }
-        
+
         return view()->exists($path);
     }
 
@@ -209,7 +216,7 @@ class View
             return $view;
         }
 
-        return $prefix . '.' . $view;
+        return $prefix . $this->getConcatCharacter() . $view;
     }
 
     /**
@@ -304,6 +311,12 @@ class View
         $this->view = implode($concat, array_filter($views));
     }
 
+    /**
+     * Determine how we should concatenate the location
+     * based on what view model we are using.
+     *
+     * @return string
+     */
     protected function getConcatCharacter()
     {
         if ($this->isInertiaFlag) {
@@ -322,7 +335,7 @@ class View
     {
         $this->attempted($this->view);
 
-        return view()->exists($this->view) ? $this->view : null;
+        return $this->exists($this->view) ? $this->view : null;
     }
 
     /**
