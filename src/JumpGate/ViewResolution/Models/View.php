@@ -11,6 +11,7 @@ class View
      * @var null|string
      */
     public $layout = null;
+
     /**
      * @var null|string
      */
@@ -57,13 +58,20 @@ class View
     public $attemptedViews;
 
     /**
+     * @var bool
+     */
+    public $isInertiaFlag;
+
+    /**
      * @param array $routeParts
      * @param null  $layout
+     * @param bool  $isInertiaFlag
      */
-    public function __construct(array $routeParts = [], $layout = null)
+    public function __construct(array $routeParts = [], $layout = null, $isInertiaFlag = false)
     {
         $this->attemptedViews = collect();
         $this->layout         = $layout;
+        $this->isInertiaFlag  = $isInertiaFlag;
 
         if (! empty($routeParts)) {
             $this->parseController(head($routeParts));
@@ -120,6 +128,55 @@ class View
     }
 
     /**
+     * Find the most reasonable view available.
+     *
+     * @return null
+     */
+    public function getComponent()
+    {
+        if (! is_null($this->view)) {
+
+        }
+        // If we don't have a prefix, just return the view.
+        if (is_null($this->prefix)) {
+            return $this->getBaseView();
+        }
+
+        // Set up modifiable variables.
+        $view     = $this->concatViewAndPrefix($this->prefix, $this->view);
+        $prefixes = clone $this->prefixes;
+
+        $this->attempted($view);
+
+        // Try to find a valid view.
+        while (! $this->exists($view)) {
+            // If we are out of prefixes and the view still isn't found, back out.
+            if (is_null($this->prefix) && ! $this->exists($view)) {
+                $view = null;
+                break;
+            }
+
+            // Remove prefixes until we don't have any left.
+            if ($prefixes->count() > 0) {
+                $prefixes->pop();
+
+                $prefixes     = $this->removeControllerFromPrefixes($prefixes);
+                $this->prefix = $prefixes->count() > 0 ? $prefixes->implode('.') : null;
+                $view         = $this->concatViewAndPrefix($this->prefix, $this->view);
+            } else {
+                $this->prefix = null;
+                $view         = $this->view;
+            }
+
+            $this->attempted($view);
+        }
+
+        $this->view = $view;
+
+        return $this->view;
+    }
+
+    /**
      * When a view is checked, add it to attempted.
      *
      * @param string $view
@@ -127,6 +184,15 @@ class View
     protected function attempted($view)
     {
         $this->attemptedViews = $this->attemptedViews->push($view);
+    }
+    
+    protected function exists($path)
+    {
+        if ($this->isInertiaFlag) {
+            return file_exists()->exists(resource_path('js/Pages/' . $path));
+        }
+        
+        return view()->exists($path);
     }
 
     /**
@@ -221,12 +287,30 @@ class View
      */
     protected function setView()
     {
-        $views = [
-            $this->controller,
-            $this->action,
-        ];
+        if ($this->isInertiaFlag) {
+            $views = [
+                ucfirst($this->controller),
+                ucfirst($this->action),
+            ];
+        } else {
+            $views = [
+                $this->controller,
+                $this->action,
+            ];
+        }
 
-        $this->view = implode('.', array_filter($views));
+        $concat = $this->getConcatCharacter();
+
+        $this->view = implode($concat, array_filter($views));
+    }
+
+    protected function getConcatCharacter()
+    {
+        if ($this->isInertiaFlag) {
+            return '/';
+        }
+
+        return '.';
     }
 
     /**
