@@ -12,6 +12,18 @@ if (! function_exists('viewResolver')) {
     }
 }
 
+if (! function_exists('inertiaResolver')) {
+    /**
+     * Return the view builder instance.
+     *
+     * @return mixed
+     */
+    function inertiaResolver()
+    {
+        return app('inertiaResolver');
+    }
+}
+
 if (! function_exists('checkDebugbar')) {
     /**
      * Return the ViewBuilder instance.
