@@ -2,6 +2,8 @@
 
 namespace JumpGate\ViewResolution\Traits;
 
+use Inertia\ResponseFactory;
+
 trait AutoResolvesViews
 {
     /**
@@ -24,6 +26,21 @@ trait AutoResolvesViews
         // Set up the default view resolution
         viewResolver()->setUp($layoutOptions, $view);
         $this->setupLayout();
+    }
+
+    /**
+     * Find the component for an inertia response.
+     *
+     * @param array       $data
+     * @param null|string $page
+     *
+     * @return \Inertia\Response
+     */
+    public function inertia($data = [], $page = null)
+    {
+        $viewModel = inertiaResolver()->setUp($page);
+
+        return app(ResponseFactory::class)->render($viewModel->view, $data);
     }
 
     /**
