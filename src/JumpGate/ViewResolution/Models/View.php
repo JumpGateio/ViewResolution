@@ -269,7 +269,7 @@ class View
         $this->prefixes = $this->removeControllerFromPrefixes($this->prefixes)->filter();
 
         if ($this->prefixes->count() > 0) {
-            $this->prefix = $this->prefixes->filter()->implode('.');
+            $this->prefix = ucfirst($this->prefixes->filter()->implode('.'));
         }
     }
 
