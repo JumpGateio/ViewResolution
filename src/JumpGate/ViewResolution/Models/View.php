@@ -142,9 +142,13 @@ class View
             return $this->getBaseView();
         }
 
+        $prefixes = clone $this->prefixes->transform(function ($data) {
+            return ucfirst($data);
+        });
+        $this->prefix = $prefixes->implode($this->getConcatCharacter());
+        
         // Set up modifiable variables.
-        $view     = $this->concatViewAndPrefix($this->prefix, $this->view);
-        $prefixes = clone $this->prefixes;
+        $view = $this->concatViewAndPrefix($this->prefix, $this->view);
 
         $this->attempted($view);
 
@@ -161,7 +165,7 @@ class View
                 $prefixes->pop();
 
                 $prefixes     = $this->removeControllerFromPrefixes($prefixes);
-                $this->prefix = $prefixes->count() > 0 ? $prefixes->implode('.') : null;
+                $this->prefix = $prefixes->count() > 0 ? $prefixes->implode($this->getConcatCharacter()) : null;
                 $view         = $this->concatViewAndPrefix($this->prefix, $this->view);
             } else {
                 $this->prefix = null;
@@ -269,7 +273,7 @@ class View
         $this->prefixes = $this->removeControllerFromPrefixes($this->prefixes)->filter();
 
         if ($this->prefixes->count() > 0) {
-            $this->prefix = ucfirst($this->prefixes->filter()->implode('.'));
+            $this->prefix = ucfirst($this->prefixes->filter()->implode($this->getConcatCharacter()));
         }
     }
 
