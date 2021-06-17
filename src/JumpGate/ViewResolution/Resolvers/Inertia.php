@@ -44,6 +44,14 @@ class Inertia
             $view = $this->findView();
         }
 
+        if (str_contains($view, '.')) {
+            $view = SupportCollection::explode('.', $view)
+                ->transform(function ($part) {
+                    return ucfirst($part);
+                })
+                ->implode('/');
+        }
+
         $this->viewModel->view = $view;
 
         inertiaResolver()->collectDetails($this->viewModel);
