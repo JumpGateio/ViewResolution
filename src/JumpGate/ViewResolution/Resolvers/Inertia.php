@@ -3,6 +3,7 @@
 namespace JumpGate\ViewResolution\Resolvers;
 
 use Illuminate\Routing\Router;
+use JumpGate\Database\Collections\SupportCollection;
 use JumpGate\ViewResolution\Models\View;
 
 class Inertia
