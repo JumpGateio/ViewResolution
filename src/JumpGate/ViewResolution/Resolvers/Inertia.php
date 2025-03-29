@@ -13,6 +13,16 @@ class Inertia
      */
     public $route;
 
+    /**
+     * @var View
+     */
+    public $viewModel;
+
+    /**
+     * @var string
+     */
+    public $path;
+
     public function __construct(Router $route)
     {
         $this->route = $route;
