@@ -200,7 +200,8 @@ class View
     protected function exists($path)
     {
         if ($this->isInertiaFlag) {
-            return file_exists(resource_path('js/Pages/' . $path . '.vue'));
+            return file_exists(resource_path('js/Pages/' . $path . '.vue')) 
+                || file_exists(resource_path('js/pages/' . $path . '.vue'));
         }
 
         return view()->exists($path);
